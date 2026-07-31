@@ -191,6 +191,16 @@ const Layout = {
         if (!['Admin', 'NhanSu'].includes(user.tenQuyen)) {
             document.querySelectorAll('[data-manager-only]').forEach(el => el.style.display = 'none');
         }
+
+        // Tài khoản "Nhân viên" (quyền NhanVien) chỉ thấy đúng 3 mục trong sidebar:
+        // Chấm công, Bảng lương, Thưởng / KL
+        if (user.tenQuyen === 'NhanVien') {
+            const employeeOnlyPages = ['/attendance', '/salary', '/rewards'];
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(link => {
+                const href = link.getAttribute('href') || '';
+                if (!employeeOnlyPages.includes(href)) link.style.display = 'none';
+            });
+        }
     },
 
     initTheme() {

@@ -12,7 +12,10 @@ CREATE TABLE Quyen (
 CREATE TABLE PhongBan (
     MaPhongBan INT AUTO_INCREMENT PRIMARY KEY,
     TenPhongBan VARCHAR(100) NOT NULL,
-    MoTa VARCHAR(255)
+    TruongPhong INT NULL,
+    MoTa VARCHAR(255),
+    CONSTRAINT FK_PB_TruongPhong FOREIGN KEY (TruongPhong) REFERENCES NhanVien(MaNhanVien)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE ChucVu (
