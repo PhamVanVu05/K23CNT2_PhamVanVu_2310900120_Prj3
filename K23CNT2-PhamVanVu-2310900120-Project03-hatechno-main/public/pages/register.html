@@ -177,26 +177,14 @@
         }
     });
 
-    // Load departments & positions
+    // Load departments (public route, không cần đăng nhập) & positions (mặc định Nhân Viên)
     async function loadSelects() {
         try {
-            const [depts, pos] = await Promise.all([
-                fetch('/api/departments', { headers: { Authorization: `Bearer ${localStorage.getItem('hrm_token')}` } }).then(r => r.json()),
-                fetch('/api/positions', { headers: { Authorization: `Bearer ${localStorage.getItem('hrm_token')}` } }).then(r => r.json())
-            ]);
-
+            const depts = await fetch('/api/departments/public/list').then(r => r.json());
             if (depts.data) {
                 const sel = document.getElementById('maPhongBan');
                 depts.data.forEach(d => {
                     sel.innerHTML += `<option value="${d.MaPhongBan}">${d.TenPhongBan}</option>`;
-                });
-            }
-
-            if (pos.data) {
-                const sel = document.getElementById('maChucVu');
-                sel.innerHTML = '';
-                pos.data.forEach(p => {
-                    sel.innerHTML += `<option value="${p.MaChucVu}"${p.MaChucVu==3?' selected':''}>${p.TenChucVu}</option>`;
                 });
             }
         } catch(e) { console.log('Could not load selects'); }
